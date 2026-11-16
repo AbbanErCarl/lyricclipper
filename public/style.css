@@ -1,0 +1,116 @@
+:root {
+  --bg: #f6f5f2;
+  --card: #ffffff;
+  --ink: #1d1c1a;
+  --muted: #6c6a65;
+  --line: #e3e0da;
+  --accent: #d1462f;
+  --accent-soft: rgba(209, 70, 47, 0.12);
+  --hit: #fff1c2;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #161514; --card: #201f1d; --ink: #f1efe9; --muted: #a29f97; --line: #34322e;
+    --accent: #ff6a4d; --accent-soft: rgba(255, 106, 77, 0.16); --hit: #4a3d12;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); }
+header { max-width: 900px; margin: 0 auto; padding: 28px 16px 8px; }
+h1 { margin: 0; font-size: 24px; letter-spacing: -0.02em; }
+h2 { margin: 0; font-size: 20px; }
+h3 { margin: 16px 0 8px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+.tag, .muted { color: var(--muted); margin: 4px 0 0; }
+/* minmax(0, 1fr) and min-width: 0 stop the grid from growing to fit the waveform's
+   scrollable content (60 px per second of song = 16,000+ px). Without them the card
+   and the waveform resize each other in a loop. */
+main { max-width: 900px; margin: 0 auto; padding: 8px 16px 48px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px; min-width: 0; }
+form { display: flex; gap: 8px; }
+input[type="text"] {
+  flex: 1; font: inherit; font-size: 16px; padding: 10px 12px; border-radius: 8px;
+  border: 1px solid var(--line); background: var(--bg); color: var(--ink);
+}
+input[type="text"]:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+button, select {
+  font: inherit; font-size: 14px; padding: 8px 12px; border-radius: 8px; cursor: pointer;
+  border: 1px solid var(--line); background: var(--card); color: var(--ink);
+}
+button:hover { border-color: var(--muted); }
+button[type="submit"], .primary { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+.primary-ghost { border-color: var(--accent); color: var(--accent); font-weight: 600; }
+.ghost { background: transparent; }
+.row { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-top: 10px; }
+.small { font-size: 13px; color: var(--muted); }
+.file input { font-size: 12px; }
+.msg { color: var(--accent); min-height: 1em; margin: 8px 0 0; font-size: 14px; }
+
+.results { list-style: none; padding: 0; margin: 12px 0 0; display: grid; gap: 6px; }
+.results li {
+  display: grid; grid-template-columns: 96px 1fr auto; gap: 12px; align-items: center;
+  padding: 6px; border-radius: 8px; cursor: pointer;
+}
+.results li:hover { background: var(--accent-soft); }
+.results img { width: 96px; height: 54px; object-fit: cover; border-radius: 6px; background: var(--line); }
+.results .t { font-weight: 600; font-size: 14px; }
+.results .c { font-size: 12px; color: var(--muted); }
+.badge { font-size: 11px; padding: 1px 6px; border-radius: 99px; background: var(--accent-soft); color: var(--accent); margin-left: 6px; }
+
+.chips { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.chips li { padding: 6px 10px; border: 1px solid var(--line); border-radius: 99px; font-size: 13px; cursor: pointer; }
+.chips li:hover { border-color: var(--accent); }
+
+.song-head { display: flex; justify-content: space-between; gap: 12px; align-items: start; }
+.song-actions { display: flex; gap: 8px; }
+.status { margin: 12px 0 16px; font-size: 13px; color: var(--muted); }
+.bar { height: 4px; background: var(--line); border-radius: 4px; margin-top: 6px; overflow: hidden; }
+#bar-fill { height: 100%; width: 0; background: var(--accent); transition: width 0.3s; }
+
+.hits { list-style: none; padding: 0; margin: 10px 0; display: grid; gap: 4px; }
+.hits li { display: grid; grid-template-columns: 64px 1fr auto auto; gap: 10px; align-items: center; padding: 6px 8px; border-radius: 8px; }
+.hits li.active { background: var(--accent-soft); }
+.hits .time { font-variant-numeric: tabular-nums; color: var(--muted); font-size: 13px; }
+.hits .ctx { font-size: 14px; color: var(--muted); }
+.hits mark { background: var(--hit); color: var(--ink); padding: 0 2px; border-radius: 3px; }
+.hits .fuzzy { font-size: 11px; color: var(--muted); }
+.hits li.empty { display: block; color: var(--muted); font-size: 14px; padding: 6px 8px; line-height: 1.5; }
+.results li.empty { display: block; color: var(--muted); font-size: 14px; padding: 6px 8px; cursor: default; }
+.results li.empty:hover { background: none; }
+button.link {
+  border: 0; padding: 0; background: none; color: var(--accent); font: inherit; font-size: inherit;
+  text-decoration: underline; cursor: pointer;
+}
+
+details { margin: 8px 0 12px; font-size: 14px; }
+summary { cursor: pointer; color: var(--muted); }
+#transcript { line-height: 1.9; }
+#transcript span { cursor: pointer; padding: 1px 2px; border-radius: 3px; }
+#transcript span:hover { background: var(--accent-soft); }
+
+#wave { border: 1px solid var(--line); border-radius: 8px; padding: 4px 0; margin: 8px 0 12px; width: 100%; min-width: 0; overflow: hidden; }
+#editor { min-width: 0; }
+.controls { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; }
+.group { display: flex; gap: 6px; align-items: center; }
+.label { font-size: 12px; color: var(--muted); }
+.len { font-variant-numeric: tabular-nums; font-size: 14px; font-weight: 600; min-width: 56px; }
+
+#drop {
+  position: fixed; inset: 0; display: grid; place-items: center; font-size: 22px; font-weight: 600;
+  background: var(--accent-soft); border: 3px dashed var(--accent); color: var(--accent); z-index: 10;
+}
+#drop[hidden] { display: none; }
+
+.lyrics-bar { margin: -6px 0 14px; line-height: 1.5; }
+.lyrics-bar.ok::before { content: "✓ "; color: var(--accent); font-weight: 600; }
+.lyrics-panel { border: 1px solid var(--line); border-radius: 8px; padding: 12px; margin: 0 0 16px; display: grid; gap: 8px; }
+.lyrics-panel textarea {
+  width: 100%; font: inherit; font-size: 14px; line-height: 1.5; padding: 10px 12px; border-radius: 8px;
+  border: 1px solid var(--line); background: var(--bg); color: var(--ink); resize: vertical;
+}
+.row-inline { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.row-inline input[type="text"] { min-width: 200px; }
+.lyric-line { line-height: 1.9; }
+#transcript span.est { opacity: 0.55; }
+/* class display rules beat the hidden attribute unless told otherwise */
+[hidden] { display: none !important; }

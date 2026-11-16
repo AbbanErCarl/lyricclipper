@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lyric Clipper</title>
+  <link rel="stylesheet" href="/style.css">
+  <script type="importmap">
+    {
+      "imports": {
+        "wavesurfer": "/vendor/wavesurfer/wavesurfer.esm.js",
+        "wavesurfer/regions": "/vendor/wavesurfer/plugins/regions.esm.js"
+      }
+    }
+  </script>
+</head>
+<body>
+  <header>
+    <h1>Lyric Clipper</h1>
+    <p class="tag">Pick a song, type the words, get the clip.</p>
+  </header>
+
+  <main>
+    <!-- 1. Find the song -->
+    <section id="find" class="card">
+      <form id="source">
+        <input id="q" type="text" autocomplete="off" placeholder="Search YouTube (e.g. Davido Risky) or paste a link" required>
+        <button type="submit">Go</button>
+      </form>
+      <div class="row small">
+        <label><input id="quick" type="checkbox"> Quick transcription (base model: ~3× faster, less accurate)</label>
+        <label class="file">or drop an audio file anywhere / <input id="file" type="file" accept="audio/*,video/*"></label>
+      </div>
+      <ul id="results" class="results"></ul>
+      <div id="recent-wrap" hidden>
+        <h3>Recent</h3>
+        <ul id="recent" class="chips"></ul>
+      </div>
+      <p id="find-msg" class="msg"></p>
+    </section>
+
+    <!-- 2. Song: progress, words, hits, editor -->
+    <section id="song" class="card" hidden>
+      <div class="song-head">
+        <div>
+          <h2 id="title"></h2>
+          <p id="artist" class="muted"></p>
+        </div>
+        <div class="song-actions">
+          <button id="retry" class="ghost" hidden>Retry</button>
+          <button id="redo" class="ghost" hidden>Redo with accurate model</button>
+        </div>
+      </div>
+      <div class="status">
+        <span id="status-text"></span>
+        <div class="bar"><div id="bar-fill"></div></div>
+      </div>
+      <p id="lyrics-bar" class="lyrics-bar small"></p>
+      <div id="lyrics-panel" class="lyrics-panel" hidden>
+        <div class="row-inline">
+          <input id="lyrics-query" type="text" autocomplete="off" placeholder="Artist and title to search LRCLIB">
+          <button id="lyrics-search">Search LRCLIB</button>
+        </div>
+        <textarea id="lyrics-text" rows="10" placeholder="…or paste the lyrics here (from Genius, Musixmatch, anywhere). One line per sung line; order matters."></textarea>
+        <div class="row-inline">
+          <button id="lyrics-use" class="primary">Use these lyrics</button>
+          <button id="lyrics-cancel" class="ghost">Close</button>
+          <span id="lyrics-msg" class="small"></span>
+        </div>
+      </div>
+
+      <form id="phrase-form" onsubmit="return false">
+        <input id="phrase" type="text" autocomplete="off" placeholder="Type the words you want, e.g. your body risky">
+      </form>
+      <ul id="hits" class="hits"></ul>
+
+      <details id="transcript-wrap">
+        <summary id="transcript-label">What Whisper heard (click a word to start the clip there)</summary>
+        <div id="transcript"></div>
+      </details>
+
+      <div id="editor" hidden>
+        <div id="wave"></div>
+        <div class="controls">
+          <div class="group">
+            <span class="label">Start</span>
+            <button data-nudge="start:-0.1">−0.1</button>
+            <button data-nudge="start:0.1">+0.1</button>
+          </div>
+          <div class="group">
+            <span class="label">End</span>
+            <button data-nudge="end:-0.1">−0.1</button>
+            <button data-nudge="end:0.1">+0.1</button>
+            <span class="label">extra</span>
+            <button data-tail="0">0</button>
+            <button data-tail="2">+2s</button>
+            <button data-tail="5">+5s</button>
+          </div>
+          <div class="group">
+            <button id="play" class="primary-ghost">▶ Play</button>
+            <label class="small"><input id="loop" type="checkbox" checked> Loop</label>
+            <span id="len" class="len"></span>
+          </div>
+          <div class="group">
+            <select id="format">
+              <option value="ogg">.ogg (Opus)</option>
+              <option value="mp3">.mp3</option>
+            </select>
+            <button id="export" class="primary">Export clip</button>
+          </div>
+        </div>
+        <p id="export-msg" class="msg"></p>
+      </div>
+    </section>
+  </main>
+
+  <div id="drop" hidden>Drop the audio file</div>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

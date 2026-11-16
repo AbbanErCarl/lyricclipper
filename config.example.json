@@ -1,0 +1,21 @@
+{
+  "port": 4321,
+  "host": "127.0.0.1",
+  "cacheDir": "cache",
+  "exportsDir": "exports",
+  "tools": {
+    "ytdlp": "tools/yt-dlp.exe",
+    "ffmpeg": "tools/ffmpeg/ffmpeg.exe",
+    "ffprobe": "tools/ffmpeg/ffprobe.exe",
+    "whisper": "tools/whisper/whisper-cli.exe"
+  },
+  "whisper": {
+    "model": "tools/models/ggml-small-q5_1.bin",
+    "quickModel": "tools/models/ggml-base-q5_1.bin",
+    "vadModel": "tools/models/ggml-silero-v5.1.2.bin",
+    "useVad": false,
+    "threads": 4,
+    "language": "en",
+    "extraArgs": []
+  }
+}
